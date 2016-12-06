@@ -5,6 +5,7 @@ var moment = require('moment');
 var packages = require('../../client/packages');
 var path = require('path');
 
+var babelrc = fs.readJsonSync(path.resolve(__dirname, '../../../.babelrc'), { throws: false }) || {};
 var basedir = path.resolve(__dirname + '/../../client/');
 var devMode = process.env.KEYSTONE_DEV === 'true';
 var devWriteBundles = process.env.KEYSTONE_WRITE_BUNDLES === 'true';
@@ -26,7 +27,7 @@ function logError (file, err) {
 	console.log(ts() + chalk.red('error building ' + chalk.underline(file) + ':') + '\n' + err.message);
 }
 
-module.exports = function (file, name) {
+module.exports = function (file, name, paths) {
 	var b;
 	var building = false;
 	var queue = [];
@@ -57,7 +58,7 @@ module.exports = function (file, name) {
 		var babelify = require('babelify');
 		var browserify = require('browserify');
 		var watchify = require('watchify');
-		var opts = { basedir: basedir };
+		var opts = { basedir: basedir, paths: paths };
 		if (devMode) {
 			logInit(logName);
 			opts.debug = true;
@@ -73,7 +74,7 @@ module.exports = function (file, name) {
 		} else {
 			b = browserify(file, opts);
 		}
-		b.transform(babelify);
+		b.transform(babelify, babelrc);
 		b.exclude('FieldTypes');
 		packages.forEach(function (i) {
 			b.exclude(i);
