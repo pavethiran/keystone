@@ -48,16 +48,19 @@ module.exports = function createStaticRouter (keystone) {
 			file: './FieldTypes.js',
 			hash: keystoneHash,
 			writeToDisk: writeToDisk,
+			paths: browserifyPaths
 		}),
 		signin: browserify({
 			file: './Signin/index.js',
 			hash: keystoneHash,
 			writeToDisk: writeToDisk,
+			paths: browserifyPaths
 		}),
 		admin: browserify({
 			file: './App/index.js',
 			hash: keystoneHash,
 			writeToDisk: writeToDisk,
+			paths: browserifyPaths
 		}),
 	};
 
