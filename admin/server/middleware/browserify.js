@@ -77,7 +77,7 @@ module.exports = function (opts) {
 		var babelify = require('babelify');
 		var browserify = require('browserify');
 		var watchify = require('watchify');
-		var opts = { basedir: basedir, paths: paths };
+		var opts = { basedir: basedir };
 		if (devMode) {
 			logInit(logName);
 			opts.debug = true;
